@@ -1,4 +1,3 @@
-import {useState} from "react"
 import "./App.css";
 import ExifReader from "/node_modules/exifreader/src/exif-reader"
 import Tools from "./components/Tools"
@@ -67,7 +66,7 @@ function App() {
         }
 
         let enable = document.querySelectorAll(".disabled")
-        if (enable[0] != undefined) enable[0].classList.toggle('disabled')        
+        if (enable[0] !== undefined) enable[0].classList.toggle('disabled')        
 
     }
 

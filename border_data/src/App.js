@@ -2,6 +2,7 @@ import "./App.css";
 import ExifReader from "/node_modules/exifreader/src/exif-reader"
 import Tools from "./components/Tools"
 
+
 let tagsList = []
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
     const img = new Image()
     let canvas 
     let border 
+    let font = 'MinimalRegular'
     let data_text
     let model_text 
     let fcolor = "white"
@@ -19,6 +21,7 @@ function App() {
     let right_corner = []
     let left_corner = []
     let top_corner = []
+    let bold_checked = false
     let model_checked = false
     let top_checked = false
     let swap_checked = false
@@ -72,7 +75,7 @@ function App() {
 
     function updateBorder(){
         let ctx = canvas.getContext('2d', {alpha: false})   
-        let font_size = border/5    
+        let font_size = ratio*border/5    
         cwidth = canvas.width = img.width + border*2
         cheight = canvas.height = img.height + ratio*border*2
         left_corner[0] = border
@@ -83,7 +86,7 @@ function App() {
         ctx.fillStyle = fcolor
         ctx.fillRect(0, 0, canvas.width, canvas.height)
         ctx.fillStyle = txtcolor
-        ctx.font = font_size+'px "monospace"'
+        ctx.font = font_size+'px '+font
         updateDataPosition()
         ctx.drawImage(img, border, ratio*border)
     }
@@ -141,6 +144,39 @@ function App() {
         updateBorder()
     }
 
+    function changeFont(value){
+        font = value
+        
+        if (bold_checked){
+            console.log('boldchecked')
+            boldFont(bold_checked)
+            return
+        }
+
+        updateBorder()
+    }
+
+    function boldFont(checked){
+        if (font == 'MinimalBold'){
+            font = 'MinimalRegular'
+        }
+
+        if (font == 'LatoBold'){
+            font = 'LatoRegular'
+        }
+        
+        if (checked && font == 'MinimalRegular'){
+            font = 'MinimalBold'
+        }
+        
+        if (checked && font == 'LatoRegular'){
+            font = 'LatoBold'
+        }
+
+        updateBorder()
+        bold_checked = checked
+    }
+
     function addCamModel(checked){
         let form = document.getElementById('form__model')
         form.classList.toggle('unchecked')
@@ -177,6 +213,8 @@ function App() {
                 increaseBorder = {increaseBorder}
                 changeFrameColor = {changeFrameColor}
                 changeTxtColor = {changeTxtColor}
+                changeFont ={changeFont}
+                boldFont = {boldFont}
                 addCamModel = {addCamModel}
                 modelPosition={modelPosition}
                 saveImage = {saveImage}            

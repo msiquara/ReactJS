@@ -3,7 +3,7 @@ import "./Tools.css"
 import "@melloware/coloris/dist/coloris.css"
 import Coloris from "@melloware/coloris"
 
-function Tools({increaseBorder, changeFrameColor, changeTxtColor, addCamModel, modelPosition, saveImage}){
+function Tools({increaseBorder, changeFrameColor, changeTxtColor, changeFont, boldFont, addCamModel, modelPosition, saveImage}){
     Coloris.init()
     Coloris({el: "color__picker"})
     Coloris({el: "txtcolor",
@@ -31,6 +31,20 @@ function Tools({increaseBorder, changeFrameColor, changeTxtColor, addCamModel, m
                 </label>
                 <button type='button' className='text__button'></button>
             </div>
+            <div className='select__font'>
+                <label>
+                    {"Font:"}
+                    <select onInput={(e)=>changeFont(e.target.value)}>
+                        <option id='minimal' value={'MinimalRegular'}>{'Minimal'}</option>
+                        <option id='lato' value={'LatoRegular'}>{'Lato'}</option>
+                    </select>
+                </label>
+                <label>
+                    <input type='checkbox' id='fbold' onInput={(e)=>boldFont(e.target.checked)}></input>
+                    {'Bold'}
+                </label>
+            </div>      
+
             <label>
                 {"Camera model: "}
                 <input type="checkbox" id='cmodel' onInput={(e)=>addCamModel(e.target.checked)}></input>

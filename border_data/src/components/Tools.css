@@ -1,0 +1,23 @@
+.tools__main{
+    display: block;
+    flex-direction: column;
+}
+
+.tools__main.disabled{
+    pointer-events: none;
+    opacity: .5;
+}
+
+label {
+    display: block;
+    color: white;
+}
+
+.unchecked {
+    pointer-events: none;
+    opacity: .5;
+}
+
+.color__picker{
+    display: flex;
+}

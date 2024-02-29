@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'monospace';
+  src: url("fonts/Minimal_Mono/Minimal-Mono-Regular.otf") format("opentype");
+}
+
+.App {
+  display: flex;
+  background-color: black;
+}
+
+#canvas {
+  display: flex;
+  width: 70dvw;
+  max-height: 95vh;
+}

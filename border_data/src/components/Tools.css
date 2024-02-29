@@ -21,3 +21,7 @@ label {
 .color__picker{
     display: flex;
 }
+
+.select__font{
+    display: flex;
+}

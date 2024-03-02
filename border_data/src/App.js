@@ -1,4 +1,5 @@
 import "./App.css";
+import "./Fonts.css"
 import ExifReader from "/node_modules/exifreader/src/exif-reader"
 import Tools from "./components/Tools"
 
@@ -10,7 +11,8 @@ function App() {
     const img = new Image()
     let canvas 
     let border 
-    let font = 'MinimalRegular'
+    let font = 'Cormorant'
+    let font_size
     let data_text
     let model_text 
     let fcolor = "white"
@@ -75,7 +77,7 @@ function App() {
 
     function updateBorder(){
         let ctx = canvas.getContext('2d', {alpha: false})   
-        let font_size = ratio*border/5    
+        font_size = ratio*border/5 
         cwidth = canvas.width = img.width + border*2
         cheight = canvas.height = img.height + ratio*border*2
         left_corner[0] = border
@@ -146,7 +148,7 @@ function App() {
 
     function changeFont(value){
         font = value
-        
+
         if (bold_checked){
             console.log('boldchecked')
             boldFont(bold_checked)
@@ -157,21 +159,14 @@ function App() {
     }
 
     function boldFont(checked){
-        if (font == 'MinimalBold'){
-            font = 'MinimalRegular'
+        if (checked){
+            font = font+'Bold'
         }
-
-        if (font == 'LatoBold'){
-            font = 'LatoRegular'
+        //unchecked
+        else{
+            font = font.replace('Bold', '')
         }
-        
-        if (checked && font == 'MinimalRegular'){
-            font = 'MinimalBold'
-        }
-        
-        if (checked && font == 'LatoRegular'){
-            font = 'LatoBold'
-        }
+        console.log(font)
 
         updateBorder()
         bold_checked = checked

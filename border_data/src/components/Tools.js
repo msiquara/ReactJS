@@ -35,8 +35,10 @@ function Tools({increaseBorder, changeFrameColor, changeTxtColor, changeFont, bo
                 <label>
                     {"Font:"}
                     <select onInput={(e)=>changeFont(e.target.value)}>
-                        <option id='minimal' value={'MinimalRegular'}>{'Minimal'}</option>
-                        <option id='lato' value={'LatoRegular'}>{'Lato'}</option>
+                        <option id='cormorant' value={'Cormorant'}>{'Cormorant'}</option>
+                        <option id='erikas' value={'ErikasBuero'}>{'Erikas Buero'}</option>
+                        <option id='lato' value={'Lato'}>{'Lato'}</option>
+                        <option id='minimal' value={'Minimal'}>{'Minimal'}</option>
                     </select>
                 </label>
                 <label>

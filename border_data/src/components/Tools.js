@@ -12,28 +12,30 @@ function Tools({increaseBorder, changeFrameColor, changeTxtColor, changeFont, bo
 
     return (
         <div className="tools__main disabled">
-            <label>
-                {"Border size: "}
-                <input type="range" id="border" onChange={(e)=>increaseBorder(e.target.value)}/>
-            </label>
-
-            <div className='color__picker' onInput={(e)=>changeFrameColor(e.target.value)}>
+            <div className='tools__border'>
                 <label>
-                    {"Frame color: "}
-                    <input type="text" data-coloris="" id='fcolor' size={7} defaultValue={'#ffffff'} ></input>
+                    {"Border size "}
+                    <input type="range" id="border" aria-description='Percentage' onChange={(e)=>increaseBorder(e.target.value)}/>
                 </label>
-                <button type='button' className='frame__button'></button>
+                <p id='prctg'></p>
+            </div>
+            <div className='color__picker' onInput={(e)=>changeFrameColor(e.target.value)}>                
+                <p>{"Frame color "}</p>     
+                <div className='tools__frame'>
+                    <input type="text" data-coloris="" id='fcolor' className='color__box' size={7} defaultValue={'#ffffff'} ></input>
+                    <button type='button' data-coloris="" id='fbutton' className='color__button'></button>
+                </div>               
             </div>
             <div className='color__picker'>
-                <label>
-                    {"Text color: "}
-                    <input type="text" data-coloris="" id='txtcolor' size={7} defaultValue={'#000000'} onInput={(e)=>changeTxtColor(e.target.value)}></input>
-                </label>
-                <button type='button' className='text__button'></button>
+                <p>{"Text color "}</p>  
+                <div className='tools__frame' data-coloris="">  
+                    <input type="text" data-coloris="" id='txtcolor' className='color__box' size={7} defaultValue={'#000000'} onInput={(e)=>changeTxtColor(e.target.value)}></input>
+                    <button type='button' data-coloris="" id='txtbutton' className='color__button'></button>
+                </div>
             </div>
             <div className='select__font'>
                 <label>
-                    {"Font:"}
+                    {"Font"}
                     <select onInput={(e)=>changeFont(e.target.value)}>
                         <option id='cormorant' value={'Cormorant'}>{'Cormorant'}</option>
                         <option id='erikas' value={'ErikasBuero'}>{'Erikas Buero'}</option>
@@ -41,30 +43,29 @@ function Tools({increaseBorder, changeFrameColor, changeTxtColor, changeFont, bo
                         <option id='minimal' value={'Minimal'}>{'Minimal'}</option>
                     </select>
                 </label>
-                <label>
-                    <input type='checkbox' id='fbold' onInput={(e)=>boldFont(e.target.checked)}></input>
-                    {'Bold'}
-                </label>
+                    <input type='checkbox' id='fbold'  onInput={(e)=>boldFont(e.target.checked)}></input>
+                    <p>{'Bold'}</p>
             </div>      
 
-            <label>
-                {"Camera model: "}
+            <div className='tools__model'> 
+                <p>{"Camera model "}</p>
                 <input type="checkbox" id='cmodel' onInput={(e)=>addCamModel(e.target.checked)}></input>
-            </label>
+            </div>
+            
             <form id='form__model' className='unchecked' onChange={(e)=>modelPosition(e.target.value)}>
                 <fieldset>
-                    <label>
+                    <div className='model__position'>  
                         <input type='radio' id='default' name='model' value='default' defaultChecked></input>
-                        {"Default"}
-                    </label>
-                    <label>
+                        <p>{"Default"}</p>                        
+                    </div>
+                    <div className='model__position'>  
                         <input type='radio' id='swap' name='model' value='swap'></input>
-                        {"Swap"}
-                    </label>
-                    <label>
+                        <p>{"Swap"}</p>                        
+                    </div>
+                    <div className='model__position'>  
                         <input type='radio' id='top' name='model' value='top'></input>
-                        {"Top"}
-                    </label>                    
+                        <p>{"Top"}</p>                                     
+                    </div>                
                 </fieldset>
             </form>
             <button className='disabled' id="button__save" onClick={saveImage}>Download</button>

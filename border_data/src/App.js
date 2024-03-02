@@ -68,6 +68,7 @@ function App() {
             document.getElementById('border').step = cwidth*0.05/4
             document.getElementById('border').value = cwidth*0.05
             canvas.style.maxWidth = `calc(95vh*(${cwidth/cheight})`
+            document.getElementById('prctg').innerHTML = 100*border/img.width+'%'
         }
 
         let enable = document.querySelectorAll(".disabled")
@@ -77,6 +78,7 @@ function App() {
 
     function updateBorder(){
         let ctx = canvas.getContext('2d', {alpha: false})   
+        document.getElementById('prctg').innerHTML = 100*border/img.width+'%'
         font_size = ratio*border/5 
         cwidth = canvas.width = img.width + border*2
         cheight = canvas.height = img.height + ratio*border*2
@@ -138,11 +140,13 @@ function App() {
 
     function changeFrameColor(value){
         fcolor = value
+        document.getElementById('fbutton').style.backgroundColor = fcolor
         updateBorder()
     }
 
     function changeTxtColor(value){
         txtcolor = value
+        document.getElementById('txtbutton').style.backgroundColor = txtcolor
         updateBorder()
     }
 
@@ -162,7 +166,7 @@ function App() {
         if (checked){
             font = font+'Bold'
         }
-        //unchecked
+        //uncheck
         else{
             font = font.replace('Bold', '')
         }

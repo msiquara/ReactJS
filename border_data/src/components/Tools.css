@@ -1,6 +1,8 @@
 .tools__main{
     display: block;
     flex-direction: column;
+    width: 100vw;
+    padding: 20px;
 }
 
 .tools__main.disabled{
@@ -8,9 +10,25 @@
     opacity: .5;
 }
 
-label {
-    display: block;
+.tools__border{
+    display: flex;
+    align-items: center;
     color: white;
+}
+
+#border{
+    cursor: pointer;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+p {
+    color: white;
+    margin: 0px;
 }
 
 .unchecked {
@@ -20,8 +38,35 @@ label {
 
 .color__picker{
     display: flex;
+    flex-direction: column;
+}
+
+.color__box{
+    border: 0px;
+}
+
+.color__button{
+    border: 0px;
+    padding: 10px;
+}
+
+.tools__frame{
+    display: flex;
 }
 
 .select__font{
     display: flex;
+    align-items: end;
+}
+
+.tools__model{
+    display: flex;
+}
+
+.model__position{
+    display: flex;
+}
+
+button{
+    cursor: pointer;
 }

@@ -88,7 +88,7 @@ function App() {
         ctx.fillStyle = fcolor
         ctx.fillRect(0, 0, canvas.width, canvas.height)
         ctx.fillStyle = txtcolor
-        ctx.font = font_size+'px '+font
+        ctx.font = `${font_size}px '${font}'`
         updateDataPosition()
         ctx.drawImage(img, border, ratio*border)
     }

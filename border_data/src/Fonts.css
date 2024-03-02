@@ -33,11 +33,6 @@
 }
 
 @font-face {
-    font-family:'digital7';
-    src: url("fonts/digital_7/digital-7.ttf") format("truetype");
-}
-
-@font-face {
     font-family:'ErikasBueroBold';
     src: url("fonts/ErikasBuero/ErikasBueroBold.ttf") format("truetype");
     font-weight: bold;
@@ -46,4 +41,9 @@
 @font-face {
     font-family:'ErikasBuero';
     src: url("fonts/ErikasBuero/ErikasBuero.ttf") format("truetype");
+}
+
+@font-face {
+    font-family:'digital7';
+    src: url("fonts/digital_7/digital-7.ttf") format("truetype");
 }

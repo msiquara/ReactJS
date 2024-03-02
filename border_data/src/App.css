@@ -1,11 +1,16 @@
 .App {
-  display: flex;
-  flex-direction: column;
-  background-color: black;
+    display: flex;
+    background-color: black;
 }
 
 #canvas {
-  display: flex;
-  width: 70dvw;
-  max-height: 95vh;
+    display: flex;
+    width: 70dvw;
+    max-height: 95vh;
+}
+
+@media only screen and (max-width: 740px) {
+    .App {
+        flex-direction: column;
+    }
 }

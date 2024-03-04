@@ -1,49 +1,50 @@
 
 @font-face {
     font-family:'MinimalBold';
-    src: url("fonts/Minimal_Mono/Minimal-Mono-Bold.otf") format("opentype");
+    src: url("assets/fonts/Minimal_Mono/minimal-mono-bold-webfont.woff2") format("woff2");
     font-weight: bold;
 }
 
 @font-face {
     font-family:'Minimal';
-    src: url("fonts/Minimal_Mono/Minimal-Mono-Regular.otf") format("opentype");
+    src: url("assets/fonts/Minimal_Mono/minimal-mono-regular-webfont.woff2") format("woff2");
+
 }
 
 @font-face {
     font-family:'LatoBold';
-    src: url("fonts/Lato/Lato-Bold.ttf") format("truetype");
+    src: url("assets/fonts/Lato/Lato-Bold.ttf") format("truetype");
     font-weight: bold;
 }
 
 @font-face {
     font-family:'Lato';
-    src: url("fonts/Lato/Lato-Regular.ttf") format("truetype");
+    src: url("assets/fonts/Lato/Lato-Regular.ttf") format("truetype");
 }
 
 @font-face {
     font-family:'CormorantBold';
-    src: url("fonts/Cormorant/Cormorant-Bold.ttf") format("truetype");
+    src: url("assets/fonts/Cormorant/Cormorant-Bold.ttf") format("truetype");
     font-weight: bold;
 }
 
 @font-face {
     font-family:'Cormorant';
-    src: url("fonts/Cormorant/Cormorant-Regular.ttf") format("truetype");
+    src: url("assets/fonts/Cormorant/Cormorant-Regular.ttf") format("truetype");
 }
 
 @font-face {
     font-family:'ErikasBueroBold';
-    src: url("fonts/ErikasBuero/ErikasBueroBold.ttf") format("truetype");
+    src: url("assets/fonts/ErikasBuero/ErikasBueroBold.ttf") format("truetype");
     font-weight: bold;
 }
 
 @font-face {
     font-family:'ErikasBuero';
-    src: url("fonts/ErikasBuero/ErikasBuero.ttf") format("truetype");
+    src: url("assets/fonts/ErikasBuero/ErikasBuero.ttf") format("truetype");
 }
 
 @font-face {
     font-family:'digital7';
-    src: url("fonts/digital_7/digital-7.ttf") format("truetype");
+    src: url("assets/fonts/digital_7/digital-7.ttf") format("truetype");
 }

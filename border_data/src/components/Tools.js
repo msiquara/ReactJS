@@ -23,14 +23,14 @@ function Tools({increaseBorder, changeFrameColor, changeTxtColor, changeFont, bo
                 <p>{"Frame color "}</p>     
                 <div className='tools__frame'>
                     <input type="text" data-coloris="" id='fcolor' className='color__box' size={7} defaultValue={'#ffffff'} ></input>
-                    <button type='button' data-coloris="" id='fbutton' className='color__button'></button>
+                    <button type='button' id='fbutton' className='color__button'></button>
                 </div>               
             </div>
             <div className='color__picker'>
                 <p>{"Text color "}</p>  
                 <div className='tools__frame' data-coloris="">  
                     <input type="text" data-coloris="" id='txtcolor' className='color__box' size={7} defaultValue={'#000000'} onInput={(e)=>changeTxtColor(e.target.value)}></input>
-                    <button type='button' data-coloris="" id='txtbutton' className='color__button'></button>
+                    <button type='button' id='txtbutton' className='color__button'></button>
                 </div>
             </div>
             <div className='select__font'>

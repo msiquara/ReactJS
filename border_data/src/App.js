@@ -28,6 +28,63 @@ function App() {
     let top_checked = false
     let swap_checked = false
 
+    
+    
+    const fonts = [
+        new FontFace('MinimalBold', 'url(assets/fonts/Minimal_Mono/minimal-mono-bold-webfont.woff2)'),  // 500
+        new FontFace('Minimal', 'url(assets/fonts/Minimal_Mono/minimal-mono-regular-webfont.woff2)'),  // 400
+        new FontFace('LatoBold', 'url(assets/fonts/Lato/Lato-Bold.ttf)'), // 600
+        new FontFace('Lato', 'url(assets/fonts/Lato/Lato-Regular.ttf)'),  // 500
+        new FontFace('CormorantBold', 'url(assets/fonts/Cormorant/Cormorant-Bold.ttf)'),  // 400
+        new FontFace('Cormorant', 'url(assets/fonts/Cormorant/Cormorant-Regular.ttf)'), // 600
+        new FontFace('ErikasBueroBold', 'url(assets/fonts/ErikasBuero/ErikasBueroBold.ttf)'),  // 500
+        new FontFace('ErikasBuero', 'url(assets/fonts/ErikasBuero/ErikasBuero.ttf)'),  // 400
+        new FontFace('digital7', 'url(assets/fonts/digital_7/digital-7.ttf)') // 600
+    ];
+
+    
+    fonts.forEach(font => {
+        //font.load();
+        document.fonts.add(font);
+        font.load().then(()=>{})
+    });
+
+    document.fonts.ready.then(() => {
+        console.log(fonts)        
+    });
+
+    //document.body.classList.add('fonts-loaded');
+    
+
+    
+    function loadFonts() {
+        if (!('FontFace' in window)) {
+            return;
+        }
+    
+        const fonts = [
+            new FontFace('MinimalBold', 'url(/fonts/Minimal_Mono/Minimal-Mono-Bold.otf)'),  // 500
+            new FontFace('Minimal', 'url(/fonts/Minimal_Mono/Minimal-Mono-Regular.otf)'),  // 400
+            new FontFace('LatoBold', 'url(/fonts/Lato/Lato-Bold.ttf)'), // 600
+            new FontFace('Lato', 'url(/fonts/Lato/Lato-Regular.ttf)'),  // 500
+            new FontFace('CormorantBold', 'url(/fonts/Cormorant/Cormorant-Bold.ttf)'),  // 400
+            new FontFace('Cormorant', 'url(/fonts/Cormorant/Cormorant-Regular.ttf)'), // 600
+            new FontFace('ErikasBueroBold', 'url(/fonts/ErikasBuero/ErikasBueroBold.ttf)'),  // 500
+            new FontFace('ErikasBuero', 'url(/fonts/ErikasBuero/ErikasBuero.ttf)'),  // 400
+            new FontFace('digital7', 'url(/fonts/digital_7/digital-7.ttf)'), // 600
+        ];
+    
+        Promise.all(fonts).forEach(fontsLoaded => {
+            fontsLoaded.forEach(font => {
+                font.load();
+                document.fonts.add(font);
+            });
+
+            document.body.classList.add('fonts-loaded');
+            console.log(fonts)
+        });
+    }     
+
     async function createTags(file){
         const tags = await ExifReader.load(file)
 
@@ -90,7 +147,8 @@ function App() {
         ctx.fillStyle = fcolor
         ctx.fillRect(0, 0, canvas.width, canvas.height)
         ctx.fillStyle = txtcolor
-        ctx.font = `${font_size}px '${font}'`
+        ctx.font = `${font_size}px ${font}`
+        console.log(`${font_size}px '${font}'`)
         updateDataPosition()
         ctx.drawImage(img, border, ratio*border)
     }

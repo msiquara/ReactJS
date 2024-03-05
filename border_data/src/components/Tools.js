@@ -15,7 +15,7 @@ function Tools({increaseBorder, changeFrameColor, changeTxtColor, changeFont, bo
             <div className='tools__border'>
                 <label>
                     {"Border size "}
-                    <input type="range" id="border" aria-description='Percentage' onChange={(e)=>increaseBorder(e.target.value)}/>
+                    <input type="range" id="border" onChange={(e)=>increaseBorder(e.target.value)}/>
                 </label>
                 <p id='prctg'></p>
             </div>
@@ -37,6 +37,7 @@ function Tools({increaseBorder, changeFrameColor, changeTxtColor, changeFont, bo
                 <label>
                     {"Font"}
                     <select onInput={(e)=>changeFont(e.target.value)}>
+                        <option id='courier' value={'Courier'}>{'Courier'}</option>
                         <option id='cormorant' value={'Cormorant'}>{'Cormorant'}</option>
                         <option id='erikas' value={'ErikasBuero'}>{'Erikas Buero'}</option>
                         <option id='lato' value={'Lato'}>{'Lato'}</option>

@@ -10,7 +10,7 @@ function App() {
     const img = new Image()
     let canvas 
     let border 
-    let font = 'Cormorant'
+    let font = 'Courier'
     let weight = '400'
     let font_size
     let data_text
@@ -27,45 +27,20 @@ function App() {
     let model_checked = false
     let top_checked = false
     let swap_checked = false
-
-    /*
-    const fonts = [
-        new FontFace('MinimalBold', 'url(assets/fonts/Minimal_Mono/minimal-mono-bold-webfont.woff2)'),  // 500
-        new FontFace('Minimal', 'url(assets/fonts/Minimal_Mono/minimal-mono-regular-webfont.woff2)'),  // 400
-        new FontFace('LatoBold', 'url(assets/fonts/Lato/Lato-Bold.ttf)'), // 600
-        new FontFace('Lato', 'url(assets/fonts/Lato/Lato-Regular.ttf)'),  // 500
-        new FontFace('CormorantBold', 'url(assets/fonts/Cormorant/Cormorant-Bold.ttf)'),  // 400
-        new FontFace('Cormorant', 'url(assets/fonts/Cormorant/Cormorant-Regular.ttf)'), // 600
-        new FontFace('ErikasBueroBold', 'url(assets/fonts/ErikasBuero/ErikasBueroBold.ttf)'),  // 500
-        new FontFace('ErikasBuero', 'url(assets/fonts/ErikasBuero/ErikasBuero.ttf)'),  // 400
-        new FontFace('digital7', 'url(assets/fonts/digital_7/digital-7.ttf)') // 600
-    ];
-
-    
-    fonts.forEach(font => {
-        //font.load();
-        document.fonts.add(font);
-        font.load().then(()=>{})
-    });
-
-    document.fonts.ready.then(() => {
-        console.log(fonts)        
-    });
-
-    //document.body.classList.add('fonts-loaded');
-    
-    */    
+   
     var FontFaceObserver = require('fontfaceobserver')
    
     const fonts = [
-        new FontFaceObserver('MinimalBold'),
-        new FontFaceObserver('Minimal'),  
-        new FontFaceObserver('LatoBold'), 
-        new FontFaceObserver('Lato'),  
+        new FontFaceObserver('CourierBold'),
+        new FontFaceObserver('Courier'), 
         new FontFaceObserver('CormorantBold'), 
         new FontFaceObserver('Cormorant'), 
         new FontFaceObserver('ErikasBueroBold'),  
         new FontFaceObserver('ErikasBuero'),  
+        new FontFaceObserver('LatoBold'), 
+        new FontFaceObserver('Lato'),  
+        new FontFaceObserver('MinimalBold'),
+        new FontFaceObserver('Minimal'),  
         new FontFaceObserver('digital7') 
     ];
 
@@ -117,7 +92,7 @@ function App() {
             document.getElementById('border').step = cwidth*0.05/4
             document.getElementById('border').value = cwidth*0.05
             canvas.style.maxWidth = `calc(95vh*(${cwidth/cheight})`
-            document.getElementById('prctg').innerHTML = 100*border/img.width+'%'
+            document.getElementById('prctg').innerHTML = (100*border/img.width).toFixed(2)+'%'
         }
 
         let enable = document.querySelectorAll(".disabled")
@@ -128,7 +103,7 @@ function App() {
     function updateBorder(){
         setTimeout(() => {
             let ctx = canvas.getContext('2d', {alpha: false})   
-            document.getElementById('prctg').innerHTML = 100*border/img.width+'%'
+            document.getElementById('prctg').innerHTML = (100*border/img.width).toFixed(2)+'%'
             font_size = ratio*border/5 
             cwidth = canvas.width = img.width + border*2
             cheight = canvas.height = img.height + ratio*border*2

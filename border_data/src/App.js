@@ -1,8 +1,7 @@
-import "./App.css";
+import "./App.css"
 import "./Fonts.css"
 import ExifReader from "/node_modules/exifreader/src/exif-reader"
 import Tools from "./components/Tools"
-
 
 let tagsList = []
 
@@ -12,6 +11,7 @@ function App() {
     let canvas 
     let border 
     let font = 'Cormorant'
+    let weight = '400'
     let font_size
     let data_text
     let model_text 
@@ -28,8 +28,7 @@ function App() {
     let top_checked = false
     let swap_checked = false
 
-    
-    
+    /*
     const fonts = [
         new FontFace('MinimalBold', 'url(assets/fonts/Minimal_Mono/minimal-mono-bold-webfont.woff2)'),  // 500
         new FontFace('Minimal', 'url(assets/fonts/Minimal_Mono/minimal-mono-regular-webfont.woff2)'),  // 400
@@ -55,35 +54,28 @@ function App() {
 
     //document.body.classList.add('fonts-loaded');
     
+    */    
+    var FontFaceObserver = require('fontfaceobserver')
+   
+    const fonts = [
+        new FontFaceObserver('MinimalBold'),
+        new FontFaceObserver('Minimal'),  
+        new FontFaceObserver('LatoBold'), 
+        new FontFaceObserver('Lato'),  
+        new FontFaceObserver('CormorantBold'), 
+        new FontFaceObserver('Cormorant'), 
+        new FontFaceObserver('ErikasBueroBold'),  
+        new FontFaceObserver('ErikasBuero'),  
+        new FontFaceObserver('digital7') 
+    ];
 
-    
-    function loadFonts() {
-        if (!('FontFace' in window)) {
-            return;
-        }
-    
-        const fonts = [
-            new FontFace('MinimalBold', 'url(/fonts/Minimal_Mono/Minimal-Mono-Bold.otf)'),  // 500
-            new FontFace('Minimal', 'url(/fonts/Minimal_Mono/Minimal-Mono-Regular.otf)'),  // 400
-            new FontFace('LatoBold', 'url(/fonts/Lato/Lato-Bold.ttf)'), // 600
-            new FontFace('Lato', 'url(/fonts/Lato/Lato-Regular.ttf)'),  // 500
-            new FontFace('CormorantBold', 'url(/fonts/Cormorant/Cormorant-Bold.ttf)'),  // 400
-            new FontFace('Cormorant', 'url(/fonts/Cormorant/Cormorant-Regular.ttf)'), // 600
-            new FontFace('ErikasBueroBold', 'url(/fonts/ErikasBuero/ErikasBueroBold.ttf)'),  // 500
-            new FontFace('ErikasBuero', 'url(/fonts/ErikasBuero/ErikasBuero.ttf)'),  // 400
-            new FontFace('digital7', 'url(/fonts/digital_7/digital-7.ttf)'), // 600
-        ];
-    
-        Promise.all(fonts).forEach(fontsLoaded => {
-            fontsLoaded.forEach(font => {
-                font.load();
-                document.fonts.add(font);
-            });
-
-            document.body.classList.add('fonts-loaded');
-            console.log(fonts)
-        });
-    }     
+    fonts.forEach(font => {
+        font.load().then(function(){
+            console.log(`${font.family} is loaded`)
+        }).catch(e => {
+            console.error(e)
+        })
+    })
 
     async function createTags(file){
         const tags = await ExifReader.load(file)
@@ -134,23 +126,25 @@ function App() {
     }
 
     function updateBorder(){
-        let ctx = canvas.getContext('2d', {alpha: false})   
-        document.getElementById('prctg').innerHTML = 100*border/img.width+'%'
-        font_size = ratio*border/5 
-        cwidth = canvas.width = img.width + border*2
-        cheight = canvas.height = img.height + ratio*border*2
-        left_corner[0] = border
-        left_corner[1] = cheight - ratio*border/2 + font_size/2      
-        right_corner[1] = left_corner[1]
-        top_corner[0] = border
-        top_corner[1] = ratio*border/2 + font_size/2
-        ctx.fillStyle = fcolor
-        ctx.fillRect(0, 0, canvas.width, canvas.height)
-        ctx.fillStyle = txtcolor
-        ctx.font = `${font_size}px ${font}`
-        console.log(`${font_size}px '${font}'`)
-        updateDataPosition()
-        ctx.drawImage(img, border, ratio*border)
+        setTimeout(() => {
+            let ctx = canvas.getContext('2d', {alpha: false})   
+            document.getElementById('prctg').innerHTML = 100*border/img.width+'%'
+            font_size = ratio*border/5 
+            cwidth = canvas.width = img.width + border*2
+            cheight = canvas.height = img.height + ratio*border*2
+            left_corner[0] = border
+            left_corner[1] = cheight - ratio*border/2 + font_size/2      
+            right_corner[1] = left_corner[1]
+            top_corner[0] = border
+            top_corner[1] = ratio*border/2 + font_size/2
+            ctx.fillStyle = fcolor
+            ctx.fillRect(0, 0, canvas.width, canvas.height)
+            ctx.fillStyle = txtcolor
+            ctx.font = `${font_size}px ${font}`
+            console.log(`${weight} ${font_size}px ${font}`)
+            updateDataPosition()
+            ctx.drawImage(img, border, ratio*border)
+        }, 10);
     }
 
     function updateDataPosition(){
@@ -223,12 +217,13 @@ function App() {
     function boldFont(checked){
         if (checked){
             font = font+'Bold'
+            //weight = '700'
         }
         //uncheck
         else{
             font = font.replace('Bold', '')
+            //weight = '400'
         }
-        console.log(font)
 
         updateBorder()
         bold_checked = checked

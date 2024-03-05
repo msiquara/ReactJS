@@ -1,12 +1,14 @@
+
 .App {
     display: flex;
     background-color: black;
 }
 
-#canvas {
+canvas {
     display: flex;
     width: 70dvw;
-    max-height: 95vh;
+    max-height: 95vh; 
+    font-family: 'Courier Prime', 'Cormorant', 'Lato';   
 }
 
 @media only screen and (max-width: 740px) {

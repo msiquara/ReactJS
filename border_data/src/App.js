@@ -11,22 +11,21 @@ function App() {
     let canvas 
     let border 
     let font = 'Courier'
-    let weight = '400'
     let font_size
-    let data_text
-    let model_text 
     let fcolor = "white"
     let txtcolor = "black"
     let cwidth = 0
     let cheight = 0
     let ratio
+    let model_position  = 'left'
+    let date_style = 'dmy'
     let right_corner = []
     let left_corner = []
     let top_corner = []
+    let date_corner = []
     let bold_checked = false
     let model_checked = false
-    let top_checked = false
-    let swap_checked = false
+    let date_checked = false
    
     var FontFaceObserver = require('fontfaceobserver')
    
@@ -46,7 +45,7 @@ function App() {
 
     fonts.forEach(font => {
         font.load().then(function(){
-            console.log(`${font.family} is loaded`)
+            //console.log(`${font.family} is loaded`)
         }).catch(e => {
             console.error(e)
         })
@@ -61,10 +60,9 @@ function App() {
         tagsList = tagsList.concat(tags.FNumber.description)
         tagsList = tagsList.concat(tags.ExposureTime.description)
         tagsList = tagsList.concat(tags.ISOSpeedRatings.description)
+        tagsList = tagsList.concat(tags.DateTimeOriginal.description.split(' ')[0])
 
-        data_text = tagsList[1]+', '+tagsList[2]+', '+tagsList[3]+'s, '+'ISO '+ tagsList[4]
-        model_text = tagsList[0]
-        console.log(data_text, model_text)
+        console.log(tags)
     }
 
     function createImage(){
@@ -88,8 +86,8 @@ function App() {
             ratio = cheight/cwidth
             console.log(ratio)
             document.getElementById('border').min = cwidth*0.05
-            document.getElementById('border').max = cwidth*0.05*4
-            document.getElementById('border').step = cwidth*0.05/4
+            document.getElementById('border').max = cwidth*0.05*3.001
+            document.getElementById('border').step = cwidth*0.02
             document.getElementById('border').value = cwidth*0.05
             canvas.style.maxWidth = `calc(95vh*(${cwidth/cheight})`
             document.getElementById('prctg').innerHTML = (100*border/img.width).toFixed(2)+'%'
@@ -103,8 +101,8 @@ function App() {
     function updateBorder(){
         setTimeout(() => {
             let ctx = canvas.getContext('2d', {alpha: false})   
-            document.getElementById('prctg').innerHTML = (100*border/img.width).toFixed(2)+'%'
-            font_size = ratio*border/5 
+            document.getElementById('prctg').innerHTML = (100*border/img.width).toFixed()+'%'
+            font_size = ratio*border/4 
             cwidth = canvas.width = img.width + border*2
             cheight = canvas.height = img.height + ratio*border*2
             left_corner[0] = border
@@ -116,39 +114,74 @@ function App() {
             ctx.fillRect(0, 0, canvas.width, canvas.height)
             ctx.fillStyle = txtcolor
             ctx.font = `${font_size}px ${font}`
-            console.log(`${weight} ${font_size}px ${font}`)
+            console.log(`${font_size}px ${font}`)
             updateDataPosition()
             ctx.drawImage(img, border, ratio*border)
+            updateDate()
         }, 10);
     }
 
     function updateDataPosition(){
         let ctx = canvas.getContext('2d', {alpha: false})
+        let data_text = tagsList[1]+', '+tagsList[2]+', '+tagsList[3]+'s, '+'ISO '+ tagsList[4]
+        let model_text = tagsList[0]
 
         if (!model_checked){            
             ctx.fillText(data_text, left_corner[0], left_corner[1])
             return
         }        
-        //default
-        if (model_checked && !swap_checked && !top_checked){        
-            let txt_dimension = ctx.measureText(data_text).width
-            right_corner[0] = cwidth - border - txt_dimension    
-            ctx.fillText(model_text, left_corner[0], left_corner[1])
-            ctx.fillText(data_text, right_corner[0], right_corner[1])
+
+        switch(model_position){
+            case 'left':    
+                let txt_dimension = ctx.measureText(data_text).width
+                right_corner[0] = cwidth - border - txt_dimension    
+                ctx.fillText(model_text, left_corner[0], left_corner[1])
+                ctx.fillText(data_text, right_corner[0], right_corner[1])   
+                break
+            case 'right':
+                let model_dimension = ctx.measureText(model_text).width
+                right_corner[0] = cwidth - border - model_dimension
+                ctx.fillText(data_text, left_corner[0], left_corner[1])
+                ctx.fillText(model_text, right_corner[0], right_corner[1])
+                break
+            case 'top':
+                ctx.fillText(model_text, top_corner[0], top_corner[1])
+                ctx.fillText(data_text, left_corner[0], left_corner[1])
+                break
+        } 
+    }
+
+    function updateDate(){
+        let date = tagsList[5].split(':') 
+        date[0] = "'"+date[0].slice(2) 
+
+        switch(date_style){
+            case 'dmy':
+                date = [date[2],date[1],date[0]].join('-')
+                console.log(date)
+                break
+            case 'mdy':
+                date = [date[1],date[2],date[0]].join('-')
+                break
+            case 'ymd':                
+                date = date.join('-')
+                break
         }
-        //swap
-        if (swap_checked){
-            let model_dimension = ctx.measureText(model_text).width
-            right_corner[0] = cwidth - border - model_dimension
-            ctx.fillText(data_text, left_corner[0], left_corner[1])
-            ctx.fillText(model_text, right_corner[0], right_corner[1])
+
+        if (date_checked){
+            let ctx = canvas.getContext('2d', {alpha: false})
+            ctx.font = `${font_size}px digital7`  
+            let date_dimension = ctx.measureText(date).width
+            date_corner[0] = cwidth - border - font_size - date_dimension 
+            date_corner[1] = cheight - ratio*border - font_size
+            ctx.fillStyle = "rgb(235 180 0/ 70%)"
+            ctx.shadowColor = "rgb(207 81 5)"
+            ctx.shadowOffsetX = 1
+            ctx.shadowOffsetY = 0
+            ctx.shadowBlur = 22
+            ctx.fillText(date, date_corner[0], date_corner[1])
+            console.log(date)
         }
-        //top
-        if (top_checked){
-            ctx.fillText(model_text, top_corner[0], top_corner[1])
-            ctx.fillText(data_text, left_corner[0], left_corner[1])
-        }
-        console.log(swap_checked, top_checked)
     }
 
     function increaseBorder(value){
@@ -192,12 +225,10 @@ function App() {
     function boldFont(checked){
         if (checked){
             font = font+'Bold'
-            //weight = '700'
         }
         //uncheck
         else{
             font = font.replace('Bold', '')
-            //weight = '400'
         }
 
         updateBorder()
@@ -210,30 +241,35 @@ function App() {
         model_checked = checked
 
         updateBorder()
-        console.log(model_checked)
     }
 
     function modelPosition(value){
-        switch(value){
-            case 'swap':
-                top_checked = false
-                swap_checked = true
-                break
-            case 'top':
-                swap_checked = false
-                top_checked = true
-                break
-            case 'default':    
-                swap_checked = false
-                top_checked = false        
-        }
+        model_position = value
+
+        updateBorder()
+    }
+
+    function addDate(checked){
+        let form = document.getElementById('form__date')
+        form.classList.toggle('unchecked')
+        date_checked = checked
+        
+        updateBorder()        
+    }
+
+    function dateStyle(value){
+        date_style = value
+
         updateBorder()
     }
 
     return(
         <div className="App">
             <div className="App__main"> 
-                <input type="file" id="uploader" onChange={createImage}/>
+                <label className="file__upload">
+                    {'Upload...'}
+                    <input type="file" id="uploader" onChange={createImage}/>
+                </label>
                 <canvas id="canvas"></canvas>  
             </div>
             <Tools
@@ -244,6 +280,8 @@ function App() {
                 boldFont = {boldFont}
                 addCamModel = {addCamModel}
                 modelPosition={modelPosition}
+                addDate = {addDate}
+                dateStyle = {dateStyle}
                 saveImage = {saveImage}            
             />            
         </div>

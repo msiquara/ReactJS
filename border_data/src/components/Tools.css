@@ -1,8 +1,15 @@
 .tools__main{
-    display: block;
+    display: flex;
     flex-direction: column;
-    width: 100vw;
-    padding: 20px;
+    padding: 22px;
+}
+
+.tools__main>div{
+    margin-top: 10px;
+}
+
+.tools__main>button{
+    margin-top: 10px;
 }
 
 .tools__main.disabled{
@@ -14,7 +21,9 @@
     display: flex;
     align-items: center;
     color: white;
+    width: 20dvw;
 }
+
 
 #border{
     cursor: pointer;
@@ -46,8 +55,18 @@ p {
 }
 
 .color__button{
-    border: 0px;
+    cursor: default;
+    border-width: 3px;
+    border-style: double;
     padding: 10px;
+}
+
+.color__button:hover{
+    pointer-events: none;
+}
+
+#txtbutton{
+    background-color: black;
 }
 
 .tools__frame{
@@ -67,6 +86,21 @@ p {
     display: flex;
 }
 
+.tools__date{
+    display: flex;
+}
+
+.date__style{
+    display: flex;
+}
+
 button{
     cursor: pointer;
+}
+
+
+@media only screen and (max-width: 740px) {
+    .tools__main{
+        width: fit-content;
+    }
 }

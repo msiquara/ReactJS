@@ -1,0 +1,16 @@
+.tools__model{
+    display: flex;
+}
+
+.switch{
+    display: flex;
+    flex-direction: row;
+}
+
+.switch{
+    size: 10px;
+}
+
+.model__position{
+    display: flex;
+}

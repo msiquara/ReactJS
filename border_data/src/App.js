@@ -2,21 +2,36 @@ import "./App.css"
 import "./Fonts.css"
 import ExifReader from "/node_modules/exifreader/src/exif-reader"
 import Tools from "./components/Tools"
+import {CloudUpload} from '@mui/icons-material'
+import { useState } from "react"
 
+const img = new Image()
 let tagsList = []
+let ratio = 0
+let canvas 
+let border 
 
 function App() {
-    //let [border, setBorder] = useState(0)
-    const img = new Image()
-    let canvas 
-    let border 
+    let slider_border = {
+        min: 0,
+        max: 1,
+        step: 1,
+        value: 0,
+        prctg: 0
+    }
+    let [slider, setSlider] = useState([{
+        min: 0,
+        max: 1,
+        step: 1,
+        value: 0,
+        prctg: 0
+    }])
     let font = 'Courier'
     let font_size
     let fcolor = "white"
     let txtcolor = "black"
     let cwidth = 0
     let cheight = 0
-    let ratio
     let model_position  = 'left'
     let date_style = 'dmy'
     let right_corner = []
@@ -53,16 +68,16 @@ function App() {
 
     async function createTags(file){
         const tags = await ExifReader.load(file)
+        console.log(tags)
+        console.log(tags.FocalLength)
 
         tagsList = []
-        tagsList = tagsList.concat(tags.Model.description.trim())
-        tagsList = tagsList.concat(tags.FocalLength.description)
-        tagsList = tagsList.concat(tags.FNumber.description)
-        tagsList = tagsList.concat(tags.ExposureTime.description)
-        tagsList = tagsList.concat(tags.ISOSpeedRatings.description)
-        tagsList = tagsList.concat(tags.DateTimeOriginal.description.split(' ')[0])
-
-        console.log(tags)
+        tagsList = tags.Model !== undefined? tagsList.concat(tags.Model.description.trim()): tagsList.concat('n/a')
+        tagsList = tags.FocalLength !== undefined? tagsList.concat(tags.FocalLength.description): tagsList.concat('n/a')
+        tagsList = tags.FNumber !== undefined? tagsList.concat(tags.FNumber.description): tagsList.concat('n/a')
+        tagsList = tags.ExposureTime !== undefined? tagsList.concat(tags.ExposureTime.description): tagsList.concat('n/a')
+        tagsList = tags.ISOSpeedRatings !== undefined? tagsList.concat(tags.ISOSpeedRatings.description): tagsList.concat('n/a')
+        tagsList = tags.DateTimeOriginal !== undefined? tagsList.concat(tags.DateTimeOriginal.description.split(' ')[0]): tagsList.concat('n/a')
     }
 
     function createImage(){
@@ -82,15 +97,17 @@ function App() {
             ctx.fillStyle = fcolor
             ctx.fillRect(0, 0, canvas.width, canvas.height)
             ctx.drawImage(img, border, border)
-
-            ratio = cheight/cwidth
             console.log(ratio)
-            document.getElementById('border').min = cwidth*0.05
-            document.getElementById('border').max = cwidth*0.05*3.001
-            document.getElementById('border').step = cwidth*0.02
-            document.getElementById('border').value = cwidth*0.05
+            ratio = cheight/cwidth
+            
+            console.log(ratio)
+            slider_border.min = 5
+            slider_border.max = 15
+            slider_border.step = 2
+            slider_border.value = 5
+            setSlider(slider_border)
+            console.log(slider_border)
             canvas.style.maxWidth = `calc(95vh*(${cwidth/cheight})`
-            document.getElementById('prctg').innerHTML = (100*border/img.width).toFixed(2)+'%'
         }
 
         let enable = document.querySelectorAll(".disabled")
@@ -99,26 +116,27 @@ function App() {
     }
 
     function updateBorder(){
-        setTimeout(() => {
-            let ctx = canvas.getContext('2d', {alpha: false})   
-            document.getElementById('prctg').innerHTML = (100*border/img.width).toFixed()+'%'
-            font_size = ratio*border/4 
-            cwidth = canvas.width = img.width + border*2
-            cheight = canvas.height = img.height + ratio*border*2
-            left_corner[0] = border
-            left_corner[1] = cheight - ratio*border/2 + font_size/2      
-            right_corner[1] = left_corner[1]
-            top_corner[0] = border
-            top_corner[1] = ratio*border/2 + font_size/2
-            ctx.fillStyle = fcolor
-            ctx.fillRect(0, 0, canvas.width, canvas.height)
-            ctx.fillStyle = txtcolor
-            ctx.font = `${font_size}px ${font}`
-            console.log(`${font_size}px ${font}`)
-            updateDataPosition()
-            ctx.drawImage(img, border, ratio*border)
-            updateDate()
-        }, 10);
+        let ctx = canvas.getContext('2d', {alpha: false})  
+        font_size = Math.floor(ratio*border/4)
+        console.log(ratio, border)
+        cwidth = canvas.width = img.width + border*2
+        cheight = canvas.height = img.height + ratio*border*2
+        //slider_border.prctg = (100*border/img.width).toFixed()+'%'
+        //console.log(slider_border.prctg)
+        //setSlider(slider_border)
+        left_corner[0] = border
+        left_corner[1] = cheight - ratio*border/2 + font_size/2      
+        right_corner[1] = left_corner[1]
+        top_corner[0] = border
+        top_corner[1] = ratio*border/2 + font_size/2
+        ctx.fillStyle = fcolor
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.fillStyle = txtcolor
+        ctx.font = `${font_size}px ${font}`
+        console.log(`${font_size}px ${font}`)
+        updateDataPosition()
+        ctx.drawImage(img, border, ratio*border)
+        updateDate()        
     }
 
     function updateDataPosition(){
@@ -184,10 +202,11 @@ function App() {
         }
     }
 
-    function increaseBorder(value){
-        border = value
+    const increaseBorder = (e, value) => {
+        border = value*img.width/100
+        console.log(border)
         updateBorder()                    
-    }
+    }     
 
     function saveImage(){
         let canvasURL = canvas.toDataURL('image/jpeg', 1)
@@ -267,6 +286,7 @@ function App() {
         <div className="App">
             <div className="App__main"> 
                 <label className="file__upload">
+                    <CloudUpload />
                     {'Upload...'}
                     <input type="file" id="uploader" onChange={createImage}/>
                 </label>
@@ -274,6 +294,7 @@ function App() {
             </div>
             <Tools
                 increaseBorder = {increaseBorder}
+                slider = {slider}
                 changeFrameColor = {changeFrameColor}
                 changeTxtColor = {changeTxtColor}
                 changeFont ={changeFont}

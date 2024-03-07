@@ -14,19 +14,30 @@
 }
 
 .file__upload{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     cursor: pointer;
-    border-width: 1px;
+    border-width: 2px;
     border-style: solid;
-    border-radius: 1px;
+    border-radius: 20px;
     border-color: white;
+    background-color: white;
+    color: black;
+    font-weight: 600;
 
-    padding: 4px 8px 4px 8px;
+    padding: 4px 13px 4px 13px;
     margin: 4px;
 }
 
+.file__upload>svg{
+    margin-right: 4px;
+    font-size: 22px;
+}
+
 .file__upload:hover{
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
 }
 
 canvas {

@@ -27,12 +27,12 @@
     font-weight: 600;
 
     padding: 4px 13px 4px 13px;
-    margin: 4px;
+    margin: 16px;
 }
 
 .file__upload>svg{
     margin-right: 4px;
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .file__upload:hover{

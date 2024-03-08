@@ -1,15 +1,13 @@
 .tools__main{
     display: flex;
+    align-items: center;
     flex-direction: column;
     padding: 22px;
-}
-
-.tools__main>div{
-    margin-top: 10px;
+    margin-top: 54px;
 }
 
 .tools__main>button{
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .tools__main.disabled{
@@ -17,25 +15,8 @@
     opacity: .5;
 }
 
-.tools__border{
-    display: flex;
-    align-items: center;
-    color: white;
-    width: 20dvw;
-}
-
-#border{
-    cursor: pointer;
-}
-
-label {
-    display: flex;
-    flex-direction: column;
-    color: white;
-}
-
 p {
-    color: white;
+    color: rgba(255, 255, 255, 0.7);
     margin: 0px;
 }
 
@@ -44,41 +25,38 @@ p {
     opacity: .5;
 }
 
-.color__picker{
-    display: flex;
-    flex-direction: column;
-}
-
-.color__box{
-    border: 0px;
-}
-
-.color__button{
-    cursor: default;
-    border-width: 3px;
-    border-style: double;
-    padding: 10px;
-}
-
-.color__button:hover{
-    pointer-events: none;
-}
-
-#txtbutton{
-    background-color: black;
-}
-
-.tools__frame{
-    display: flex;
-}
-
-.select__font{
-    display: flex;
-    align-items: end;
-}
-
 button{
     cursor: pointer;
+}
+
+#button__save{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    cursor: pointer;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: white;
+    background-color: white;
+    color: black;
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    font-size: 16px;
+    
+    padding: 4px 12px 4px 12px;
+    margin: 20px;
+}
+
+#button__save>svg{
+    margin-right: 4px;
+    font-size: 20px;
+}
+
+#button__save:hover{
+    background-color: black;
+    color: white;
 }
 
 @media only screen and (max-width: 740px) {

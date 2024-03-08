@@ -1,3 +1,9 @@
+.date__main{
+    margin-top: 20px;
+    width: 100%;
+}
+
+
 .tools__date{
     display: flex;
 }

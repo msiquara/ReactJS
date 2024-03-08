@@ -2,7 +2,7 @@ import "./App.css"
 import "./Fonts.css"
 import ExifReader from "/node_modules/exifreader/src/exif-reader"
 import Tools from "./components/Tools"
-import {CloudUpload} from '@mui/icons-material'
+import {FileUpload} from '@mui/icons-material'
 import { useState } from "react"
 
 const img = new Image()
@@ -117,7 +117,7 @@ function App() {
 
     function updateBorder(){
         let ctx = canvas.getContext('2d', {alpha: false})  
-        font_size = Math.floor(ratio*border/4)
+        font_size = Math.floor(ratio*border/3)
         console.log(ratio, border)
         cwidth = canvas.width = img.width + border*2
         cheight = canvas.height = img.height + ratio*border*2
@@ -209,7 +209,7 @@ function App() {
     }     
 
     function saveImage(){
-        let canvasURL = canvas.toDataURL('image/jpeg', 1)
+        let canvasURL = canvas.toDataURL('image/jpeg')
         let link = document.createElement('a')
         link.href = canvasURL
         link.download = 'new_border_image.jpg'
@@ -286,8 +286,8 @@ function App() {
         <div className="App">
             <div className="App__main"> 
                 <label className="file__upload">
-                    <CloudUpload />
-                    {'Upload...'}
+                    <FileUpload />
+                    {'Upload'}
                     <input type="file" id="uploader" onChange={createImage}/>
                 </label>
                 <canvas id="canvas"></canvas>  

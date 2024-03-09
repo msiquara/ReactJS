@@ -2,7 +2,6 @@ import "./App.css"
 import "./Fonts.css"
 import ExifReader from "/node_modules/exifreader/src/exif-reader"
 import Tools from "./components/Tools"
-import {FileUpload} from '@mui/icons-material'
 import { useState } from "react"
 
 const img = new Image()
@@ -25,6 +24,18 @@ function App() {
         step: 1,
         value: 0,
         prctg: 0
+    }])
+    let mdata = {
+        focal_length: 0,
+        f_number: 0,
+        exposure: 0,
+        iso: 0
+    }
+    let [meta_data, setMetaData] = useState([{
+        focal_length: 0,
+        f_number: 0,
+        exposure: 0,
+        iso: 0
     }])
     let font = 'Courier'
     let font_size
@@ -68,8 +79,6 @@ function App() {
 
     async function createTags(file){
         const tags = await ExifReader.load(file)
-        console.log(tags)
-        console.log(tags.FocalLength)
 
         tagsList = []
         tagsList = tags.Model !== undefined? tagsList.concat(tags.Model.description.trim()): tagsList.concat('n/a')
@@ -78,6 +87,13 @@ function App() {
         tagsList = tags.ExposureTime !== undefined? tagsList.concat(tags.ExposureTime.description): tagsList.concat('n/a')
         tagsList = tags.ISOSpeedRatings !== undefined? tagsList.concat(tags.ISOSpeedRatings.description): tagsList.concat('n/a')
         tagsList = tags.DateTimeOriginal !== undefined? tagsList.concat(tags.DateTimeOriginal.description.split(' ')[0]): tagsList.concat('n/a')
+
+        mdata.focal_length = tagsList[1]
+        mdata.f_number = tagsList[2]
+        mdata.exposure = tagsList[3]
+        mdata.iso = tagsList[4]
+        setMetaData(mdata)
+        console.log(mdata)
     }
 
     function createImage(){
@@ -97,7 +113,6 @@ function App() {
             ctx.fillStyle = fcolor
             ctx.fillRect(0, 0, canvas.width, canvas.height)
             ctx.drawImage(img, border, border)
-            console.log(ratio)
             ratio = cheight/cwidth
             
             console.log(ratio)
@@ -106,7 +121,6 @@ function App() {
             slider_border.step = 2
             slider_border.value = 5
             setSlider(slider_border)
-            console.log(slider_border)
             canvas.style.maxWidth = `calc(95vh*(${cwidth/cheight})`
         }
 
@@ -121,9 +135,6 @@ function App() {
         console.log(ratio, border)
         cwidth = canvas.width = img.width + border*2
         cheight = canvas.height = img.height + ratio*border*2
-        //slider_border.prctg = (100*border/img.width).toFixed()+'%'
-        //console.log(slider_border.prctg)
-        //setSlider(slider_border)
         left_corner[0] = border
         left_corner[1] = cheight - ratio*border/2 + font_size/2      
         right_corner[1] = left_corner[1]
@@ -134,9 +145,17 @@ function App() {
         ctx.fillStyle = txtcolor
         ctx.font = `${font_size}px ${font}`
         console.log(`${font_size}px ${font}`)
+        console.log(tagsList[1])
         updateDataPosition()
         ctx.drawImage(img, border, ratio*border)
         updateDate()        
+    }
+
+    function editorData(el){
+        let value = el.value
+        let key = el.id
+        tagsList[key] = value
+        updateBorder()
     }
 
     function updateDataPosition(){
@@ -144,6 +163,7 @@ function App() {
         let data_text = tagsList[1]+', '+tagsList[2]+', '+tagsList[3]+'s, '+'ISO '+ tagsList[4]
         let model_text = tagsList[0]
 
+        console.log(data_text)
         if (!model_checked){            
             ctx.fillText(data_text, left_corner[0], left_corner[1])
             return
@@ -284,17 +304,15 @@ function App() {
 
     return(
         <div className="App">
-            <div className="App__main"> 
-                <label className="file__upload">
-                    <FileUpload />
-                    {'Upload'}
-                    <input type="file" id="uploader" onChange={createImage}/>
-                </label>
+            <div className="App__main">                 
                 <canvas id="canvas"></canvas>  
             </div>
             <Tools
+                createImage = {createImage}
                 increaseBorder = {increaseBorder}
+                editorData = {editorData}
                 slider = {slider}
+                meta_data = {meta_data}
                 changeFrameColor = {changeFrameColor}
                 changeTxtColor = {changeTxtColor}
                 changeFont ={changeFont}

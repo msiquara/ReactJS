@@ -1,3 +1,7 @@
+.color__main{
+    width: 100%;
+}
+
 .color__picker{
     display: flex;
     flex-direction: row;

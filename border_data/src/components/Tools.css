@@ -1,13 +1,45 @@
+.tools{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#uploader{
+    display: none;  
+}
+
+.file__load{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    cursor: pointer;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: white;
+    background-color: white;
+    color: black;
+    font-weight: 600;
+
+    padding: 4px 13px 4px 13px;
+    margin: 16px;
+}
+
+.file__load>svg{
+    margin-right: 4px;
+    font-size: 20px;
+}
+
+.file__load:hover{
+    background-color: black;
+    color: white;
+}
+
 .tools__main{
     display: flex;
     align-items: center;
     flex-direction: column;
     padding: 22px;
-    margin-top: 54px;
-}
-
-.tools__main>button{
-    margin-top: 20px;
 }
 
 .tools__main.disabled{
@@ -30,33 +62,7 @@ button{
 }
 
 #button__save{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    cursor: pointer;
-    border-width: 2px;
-    border-style: solid;
-    border-radius: 20px;
-    border-color: white;
-    background-color: white;
-    color: black;
-    font-family: 'Segoe UI';
-    font-weight: 600;
-    font-size: 16px;
-    
-    padding: 4px 12px 4px 12px;
-    margin: 20px;
-}
-
-#button__save>svg{
-    margin-right: 4px;
-    font-size: 20px;
-}
-
-#button__save:hover{
-    background-color: black;
-    color: white;
+    display: none;
 }
 
 @media only screen and (max-width: 740px) {

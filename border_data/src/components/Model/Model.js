@@ -2,6 +2,8 @@ import "./Model.css"
 import { FormControl } from "@mui/material"
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { Switch } from '@mui/material'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
 
 function Model({addCamModel, modelPosition}){
     return (
@@ -16,22 +18,19 @@ function Model({addCamModel, modelPosition}){
                     />
                 </FormControl>
             </div>   
-            <form id='form__model' className='unchecked' onChange={(e)=>modelPosition(e.target.value)}>
-                <fieldset>
-                    <div className='model__position'>  
-                        <input type='radio' id='left' name='model' value='left' defaultChecked></input>
-                        <p>{"Left"}</p>                        
-                    </div>
-                    <div className='model__position'>  
-                        <input type='radio' id='right' name='model' value='right'></input>
-                        <p>{"Right"}</p>                        
-                    </div>
-                    <div className='model__position'>  
-                        <input type='radio' id='top' name='model' value='top'></input>
-                        <p>{"Top"}</p>                                     
-                    </div>                
-                </fieldset>
-            </form>
+            <FormControl className="form__main">
+                <RadioGroup
+                    name="model"
+                    onChange={(e)=>modelPosition(e.target.value)}
+                    defaultValue={'left'}
+                    id='form__model'
+                    className="unchecked"
+                >
+                    <FormControlLabel value="left"  control={<Radio />} label="Left" />
+                    <FormControlLabel value="right" control={<Radio />} label="Right" />
+                    <FormControlLabel value="top" control={<Radio />} label="Top" />
+                </RadioGroup>
+            </FormControl>
         </div>
     )
 }

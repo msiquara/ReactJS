@@ -1,6 +1,6 @@
 .select__font{
     display: flex;
-    align-items: center;
+    align-items: end;
     justify-content: space-between;
     margin-top: 20px;
     width: 100%;
@@ -11,6 +11,6 @@
     flex-direction: row;
 }
 
-.MuiFormControlLabel{
+.MuiFormControlLabel-root.font__bold{
     margin: 0px;
 }

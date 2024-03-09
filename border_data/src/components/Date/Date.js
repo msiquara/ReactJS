@@ -2,6 +2,8 @@ import "./Date.css"
 import { FormControl } from "@mui/material"
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { Switch } from '@mui/material'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
 
 function Date({addDate, dateStyle}){
     return (
@@ -16,22 +18,19 @@ function Date({addDate, dateStyle}){
                     />
                 </FormControl>
             </div>
-            <form id='form__date' className='unchecked' onChange={(e)=>dateStyle(e.target.value)}>
-                <fieldset>
-                    <div className='date__style'>  
-                        <input type='radio' id='dmy' name='date' value='dmy' defaultChecked></input>
-                        <p>{"dd-mm-yy"}</p>                        
-                    </div>
-                    <div className='date__style'>  
-                        <input type='radio' id='mdy' name='date' value='mdy'></input>
-                        <p>{"mm-dd-yy"}</p>                                     
-                    </div>                
-                    <div className='date__style'>  
-                        <input type='radio' id='ymd' name='date' value='ymd'></input>
-                        <p>{"yy-mm-dd"}</p>                        
-                    </div>
-                </fieldset>
-            </form>
+            <FormControl className="form__main">
+                <RadioGroup
+                    name="date"
+                    onChange={(e)=>dateStyle(e.target.value)}
+                    defaultValue={'dmy'}
+                    id='form__date'
+                    className="unchecked"
+                >
+                    <FormControlLabel value="dmy"  control={<Radio />} label="dd-mm-yy" />
+                    <FormControlLabel value="mdy" control={<Radio />} label="mm-dd-yy" />
+                    <FormControlLabel value="ymd" control={<Radio />} label="yy-mm-dd" />
+                </RadioGroup>
+            </FormControl>
         </div>
     )
 }

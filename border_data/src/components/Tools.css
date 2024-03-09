@@ -62,5 +62,7 @@ button{
 @media only screen and (max-width: 740px) {
     .tools__main{
         width: fit-content;
+        padding: 0px;
+        margin: 10px;
     }
 }

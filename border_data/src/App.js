@@ -110,6 +110,8 @@ function App() {
             canvas.style.maxWidth = `calc(95vh*(${cwidth/cheight})`
         }
         
+        document.getElementById('focal_length').value = ''
+        document.getElementById('f_number').value = ''
         let enable = document.querySelectorAll(".disabled")
         if (enable[0] !== undefined) enable[0].classList.toggle('disabled') 
     }

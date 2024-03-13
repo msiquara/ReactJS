@@ -18,18 +18,18 @@ function FrameSize({increaseBorder, slider}){
                 </InputLabel>
                 <NativeSelect 
                     className='display_none' 
-                    defaultValue={"Courier"}
+                    defaultValue={"Something"}
                     inputProps={{
                         name: 'font'
                     }}
                 >     
-                    <option id='courier' value={'Courier'}>{'Courier'}</option>
+                    <option id='courier' value={'Display'}>{'none'}</option>
                
                 </NativeSelect>
                 <Slider
                     className='frame__slider'
-                    onChangeCommitted={increaseBorder}
-                    defaultValue={slider.value}
+                    onChangeCommitted={increaseBorder}                    
+                    defaultValue={slider.min}
                     getAriaValueText={prctgText}
                     step={slider.step}
                     marks

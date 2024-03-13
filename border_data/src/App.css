@@ -37,7 +37,7 @@ input{
 
     canvas {
         display: flex;
-        width: 90dvw;
+        width: 93dvw;
         max-height: 95vh;  
         border-width: 4px;
         border-style: double;

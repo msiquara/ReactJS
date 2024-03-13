@@ -7,7 +7,8 @@ function EditData({meta_data, editorData}){
             <TextField 
                 label="Focal length"
                 variant="standard"
-                id="1"
+                id="focal_length"
+                defaultValue={meta_data.focal_length}
                 className="edit__box"
                 onInput={(e) => editorData(e.target)}
                 placeholder={meta_data.focal_length}
@@ -18,7 +19,7 @@ function EditData({meta_data, editorData}){
             <TextField 
                 label="f/#"
                 variant="standard"
-                id="2"
+                id="f_number"
                 className="edit__box"
                 placeholder={meta_data.f_number}
                 onInput={(e) => editorData(e.target)}

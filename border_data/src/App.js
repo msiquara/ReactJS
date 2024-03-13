@@ -4,27 +4,42 @@ import ExifReader from "/node_modules/exifreader/src/exif-reader"
 import Tools from "./components/Tools"
 import { useState } from "react"
 
-const img = new Image()
-let tagsList = []
+let img = new Image()
+//let tags_list = []
 let ratio = 0
 let canvas 
 let border 
+let font_size
+let fcolor = "white"
+let txtcolor = "black"
+let cwidth = 0
+let cheight = 0
+let model_position  = 'left'
+let date_style = 'dmy'
+let right_corner = []
+let left_corner = []
+let top_corner = []
+let date_corner = []
+let bold_checked = false
+let model_checked = false
+let date_checked = false
+let font = 'Courier'
+let tags_list = {
+    focal_length: '',
+    f_number: '',
+    exposure: '',
+    iso: 0,
+    date: ''
+}
 
 function App() {
-    let slider_border = {
-        min: 0,
-        max: 1,
-        step: 1,
-        value: 0,
-        prctg: 0
-    }
-    let [slider, setSlider] = useState([{
-        min: 0,
-        max: 1,
-        step: 1,
-        value: 0,
-        prctg: 0
-    }])
+    let [slider, setSlider] = useState({
+        min: 5,
+        max: 15,
+        step: 2,
+        value: 5
+    })
+    //meta_data/mdata to show info on input placeholders on tools(focal_length, f/#)
     let mdata = {
         focal_length: 0,
         f_number: 0,
@@ -32,26 +47,13 @@ function App() {
         iso: 0
     }
     let [meta_data, setMetaData] = useState([{
+        model: 0,
         focal_length: 0,
         f_number: 0,
         exposure: 0,
-        iso: 0
-    }])
-    let font = 'Courier'
-    let font_size
-    let fcolor = "white"
-    let txtcolor = "black"
-    let cwidth = 0
-    let cheight = 0
-    let model_position  = 'left'
-    let date_style = 'dmy'
-    let right_corner = []
-    let left_corner = []
-    let top_corner = []
-    let date_corner = []
-    let bold_checked = false
-    let model_checked = false
-    let date_checked = false
+        iso: 0,
+        date: 0
+    }])    
    
     var FontFaceObserver = require('fontfaceobserver')
    
@@ -70,69 +72,51 @@ function App() {
     ];
 
     fonts.forEach(font => {
-        font.load().then(function(){
-            //console.log(`${font.family} is loaded`)
-        }).catch(e => {
+        font.load().then().catch(e => {
             console.error(e)
         })
     })
 
     async function createTags(file){
-        const tags = await ExifReader.load(file)
+        let tags = await ExifReader.load(file)
 
-        tagsList = []
-        tagsList = tags.Model !== undefined? tagsList.concat(tags.Model.description.trim()): tagsList.concat('n/a')
-        tagsList = tags.FocalLength !== undefined? tagsList.concat(tags.FocalLength.description): tagsList.concat('n/a')
-        tagsList = tags.FNumber !== undefined? tagsList.concat(tags.FNumber.description): tagsList.concat('n/a')
-        tagsList = tags.ExposureTime !== undefined? tagsList.concat(tags.ExposureTime.description): tagsList.concat('n/a')
-        tagsList = tags.ISOSpeedRatings !== undefined? tagsList.concat(tags.ISOSpeedRatings.description): tagsList.concat('n/a')
-        tagsList = tags.DateTimeOriginal !== undefined? tagsList.concat(tags.DateTimeOriginal.description.split(' ')[0]): tagsList.concat('n/a')
+        tags_list.model = tags.Model !== undefined? tags.Model.description.trim(): ('n/a')
+        tags_list.focal_length = tags.FocalLength !== undefined? tags.FocalLength.description: ('n/a')
+        tags_list.f_number = tags.FNumber !== undefined? tags.FNumber.description: ('n/a')
+        tags_list.exposure = tags.ExposureTime !== undefined? tags.ExposureTime.description: ('n/a')
+        tags_list.iso = tags.ISOSpeedRatings !== undefined? tags.ISOSpeedRatings.description: ('n/a')
+        tags_list.date = tags.DateTimeOriginal !== undefined? tags.DateTimeOriginal.description.split(' ')[0]: ('n/a')
 
-        mdata.focal_length = tagsList[1]
-        mdata.f_number = tagsList[2]
-        mdata.exposure = tagsList[3]
-        mdata.iso = tagsList[4]
+        mdata.focal_length = tags_list.focal_length
+        mdata.f_number = tags_list.f_number
+        mdata.exposure = tags_list.exposure
+        mdata.iso = tags_list.iso
         setMetaData(mdata)
-        console.log(mdata)
     }
 
-    function createImage(){
+    function createImage(){      
         canvas = document.getElementById('canvas')
-        let ctx = canvas.getContext('2d')
         let uploader = document.getElementById('uploader')
-        const file = uploader.files[0]
+        let file = uploader.files[0]
         
         createTags(file)        
         img.src = URL.createObjectURL(file)
 
         img.onload = function(){
-            border = 0
-            console.log(img)
-            cwidth = canvas.width = img.width + border*2
-            cheight = canvas.height = img.height + border*2
-            ctx.fillStyle = fcolor
-            ctx.fillRect(0, 0, canvas.width, canvas.height)
-            ctx.drawImage(img, border, border)
-            ratio = cheight/cwidth
-            
-            console.log(ratio)
-            slider_border.min = 5
-            slider_border.max = 15
-            slider_border.step = 2
-            slider_border.value = 5
-            setSlider(slider_border)
+            //setSlider(slider)
+            border = slider.value*img.width/100
+            ratio = img.height/img.width
+            updateBorder()
             canvas.style.maxWidth = `calc(95vh*(${cwidth/cheight})`
         }
-
+        
         let enable = document.querySelectorAll(".disabled")
-        if (enable[0] !== undefined) enable[0].classList.toggle('disabled')        
-
+        if (enable[0] !== undefined) enable[0].classList.toggle('disabled') 
     }
 
     function updateBorder(){
         let ctx = canvas.getContext('2d', {alpha: false})  
         font_size = Math.floor(ratio*border/3)
-        console.log(ratio, border)
         cwidth = canvas.width = img.width + border*2
         cheight = canvas.height = img.height + ratio*border*2
         left_corner[0] = border
@@ -145,7 +129,6 @@ function App() {
         ctx.fillStyle = txtcolor
         ctx.font = `${font_size}px ${font}`
         console.log(`${font_size}px ${font}`)
-        console.log(tagsList[1])
         updateDataPosition()
         ctx.drawImage(img, border, ratio*border)
         updateDate()        
@@ -154,16 +137,19 @@ function App() {
     function editorData(el){
         let value = el.value
         let key = el.id
-        tagsList[key] = value
+
+        if (value == ''){
+            value = meta_data[key]
+        }
+        tags_list[key] = value
         updateBorder()
     }
 
     function updateDataPosition(){
         let ctx = canvas.getContext('2d', {alpha: false})
-        let data_text = tagsList[1]+', '+tagsList[2]+', '+tagsList[3]+'s, '+'ISO '+ tagsList[4]
-        let model_text = tagsList[0]
+        let data_text = tags_list.focal_length+', '+tags_list.f_number+', '+tags_list.exposure+'s, '+'ISO '+ tags_list.iso
+        let model_text = tags_list.model
 
-        console.log(data_text)
         if (!model_checked){            
             ctx.fillText(data_text, left_corner[0], left_corner[1])
             return
@@ -190,13 +176,14 @@ function App() {
     }
 
     function updateDate(){
-        let date = tagsList[5].split(':') 
+        let date = (tags_list.date)
+        console.log(date, tags_list)
+        date = date.split(':') 
         date[0] = "'"+date[0].slice(2) 
 
         switch(date_style){
             case 'dmy':
                 date = [date[2],date[1],date[0]].join('-')
-                console.log(date)
                 break
             case 'mdy':
                 date = [date[1],date[2],date[0]].join('-')
@@ -218,13 +205,13 @@ function App() {
             ctx.shadowOffsetY = 0
             ctx.shadowBlur = 22
             ctx.fillText(date, date_corner[0], date_corner[1])
-            console.log(date)
         }
     }
 
     const increaseBorder = (e, value) => {
         border = value*img.width/100
-        console.log(border)
+        slider.value = value
+        setSlider(slider)
         updateBorder()                    
     }     
 
@@ -253,7 +240,6 @@ function App() {
         font = value
 
         if (bold_checked){
-            console.log('boldchecked')
             boldFont(bold_checked)
             return
         }
